@@ -19,6 +19,8 @@ router
 .post('/registersales',cont.adminAuth, reg.register_s)
 .post('/registercustomer',cont.adminAuth, reg.register_c)
 .post('/items/cart',cont.customerAuth,cart.addtocart)//cart
+.post('/items/cart/getdetails',cont.customerAuth,cart.getdetails)
+.post('/items/cart/details',cont.customerAuth,cart.adddetails)
 .put('/items/cart',cont.customerAuth,cart.puttoitem)
 .delete('/items/cart',cont.customerAuth,cart.deletitem)
 module.exports = router;

@@ -61,7 +61,7 @@ async function AddItemToCart(id, p, t) {
     var obj = {
         id: +id,
         title: t,
-        username: '<%=user.username%>',
+        username: document.getElementById('username').innerText.trim(),
         quantity: +q,
         price: +p
     }
@@ -81,4 +81,45 @@ async function AddItemToCart(id, p, t) {
                 document.getElementById("mes").style.display = "none"
             }, 1000)
         })
+}
+
+
+async function orderprocess() {
+    document.getElementById("det").style.display = "block"
+    var obj = {username: document.getElementById('username').innerText.trim()}
+    await fetch('./cart/getdetails', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj),
+        credentials: "include"
+    }).then((response) => response.json())
+    .then((response) => {
+        document.getElementById("mail").value = response.message.email || "";
+        document.getElementById("phone").value = response.message.phone || "";
+    })
+}
+
+
+async function placeorder() {
+    document.getElementById("det").style.display = "block"
+    var obj = {username: document.getElementById('username').innerText.trim(),
+        email: document.getElementById('mail').value.trim(),
+        phone: document.getElementById('phone').value.trim()
+    }
+    await fetch('./cart/details', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj),
+        credentials: "include"
+    }).then((response) => response.json())
+    .then((response) => {
+        alert(response.message)
+        document.getElementById("det").style.display = "none"
+    })
+
+    
 }

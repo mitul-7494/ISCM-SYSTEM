@@ -9,7 +9,8 @@
             margin: 0;
             font-family: 'Arial', sans-serif;
             padding-top: 52px;
-            background-color: #f4f4f4; /* Set a background color */
+            background-color: #f4f4f4;
+            /* Set a background color */
         }
 
         nav {
@@ -54,34 +55,40 @@
             text-align: center;
         }
 
-        .carditem{
+        .carditem {
             padding: 5px;
             width: 100%;
             display: flex;
             flex-direction: row;
         }
-        .itemname{
+
+        .itemname {
             width: 45%;
             padding: 2px;
         }
-        .itemq{
+
+        .itemq {
             width: 5%;
             padding: 2px;
         }
+
         .price {
             width: 20%;
             padding: 2px;
         }
+
         .total {
             width: 20%;
             padding: 2px;
         }
-        .button{
+
+        .button {
             cursor: pointer;
             width: 5%;
             padding: 2px;
         }
-        .totaltotal{
+
+        .totaltotal {
             width: 20%;
             padding: 2px;
         }
@@ -89,6 +96,7 @@
         .checkout-button {
             display: flex;
             background-color: #555;
+            width: fit-content;
             margin-top: 15px;
             color: white;
             padding: 10px 20px;
@@ -102,6 +110,48 @@
         .checkout-button:hover {
             background-color: #777;
         }
+
+        .details {
+            position: fixed;
+            height: 100%;
+            display: none;
+            width: 100%;
+            top: 0;
+            z-index: 999;
+            background-color: #ffffff64;
+        }
+
+        .in {
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 20px;
+            padding-left: 23%;
+            bottom: 0;
+            z-index: 1000;
+            background-color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"] {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
     </style>
     <script defer type="text/javascript" src="/static/cartsupport.js"></script>
 </head>
@@ -111,7 +161,7 @@
         <a href="/app/items">Home</a>
         <a href="/app/items/cart">Cart</a>
         <a>
-            <span class="user-icon">
+            <span class="user-icon" id="username">
                 <%=user.username%>
             </span>
         </a>
@@ -127,13 +177,13 @@
                     Item Name
                 </div>
                 <div class="button">
-                    
+
                 </div>
                 <div class="itemq">
                     Qnt
                 </div>
                 <div class="button">
-                    
+
                 </div>
                 <div class="price">
                     Price($)
@@ -142,44 +192,56 @@
                     Total($)
                 </div>
             </div>
-            <%var amount = 0%>
-            <% for(let item of items) {
-                if(item){%>
-            
-            <div class="carditem" id="<%= item.id %>">
-                <div class="itemname">
-                    <%= item.title%>
-                </div>
-                <div class="button" onclick="minus('<%= item.id %>')">
-                    -
-                </div>
-                <div class="itemq" id="q<%= item.id %>">
-                    <%= item.quantity%>
-                </div>
-                <div class="button" onclick="plus('<%= item.id %>')">
-                    +
-                </div>
-                <div class="price" id="p<%= item.id %>">
-                    <%= item.price%>.00
-                </div>
-                <div class="total" id="t<%= item.id %>">
-                    <%let total = item.price*item.quantity;
-                    var amount = amount+total %>
-                    <%= total %>.00
-                </div>
-            </div>
-            <%}}%>
-            <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
-                <div class="totaltotal" id="amount">
-                    <%= amount %>.00
-                </div>
-                <div style="width: 35%;"></div>
-                <div class="itemname">
-                    Total Amount
-                </div>
-            </div>
+            <%var amount=0%>
+                <% for(let item of items) { if(item){%>
+
+                    <div class="carditem" id="<%= item.id %>">
+                        <div class="itemname">
+                            <%= item.title%>
+                        </div>
+                        <div class="button" onclick="minus('<%= item.id %>')">
+                            -
+                        </div>
+                        <div class="itemq" id="q<%= item.id %>">
+                            <%= item.quantity%>
+                        </div>
+                        <div class="button" onclick="plus('<%= item.id %>')">
+                            +
+                        </div>
+                        <div class="price" id="p<%= item.id %>">
+                            <%= item.price%>.00
+                        </div>
+                        <div class="total" id="t<%= item.id %>">
+                            <%let total=item.price*item.quantity; var amount=amount+total %>
+                                <%= total %>.00
+                        </div>
+                    </div>
+                    <%}}%>
+                        <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
+                            <div class="totaltotal" id="amount">
+                                <%= amount %>.00
+                            </div>
+                            <div style="width: 35%;"></div>
+                            <div class="itemname">
+                                Total Amount
+                            </div>
+                        </div>
         </div>
-        <button class="checkout-button">Checkout</button>
+        <button class="checkout-button" onclick="orderprocess()">Checkout</button>
+    </div>
+    <div class="details" id="det">
+        <div class="in">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" id="mail" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Phone No.</label>
+                <input type="text" id="phone" name="password" minlength="10" maxlength="10" required>
+            </div>
+            <button class="checkout-button" onclick="placeorder()">Confirm</button>
+        </div>
     </div>
 </body>
+
 </html>

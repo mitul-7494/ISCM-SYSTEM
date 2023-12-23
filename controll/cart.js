@@ -1,5 +1,7 @@
 const cart = require('../model/cart');
 const Cart = cart.cart;
+const cd = require('../model/customerdetail');
+const Cd = cd.details;
 
 exports.addtocart = async (req, res) => {
     const  data = req.body
@@ -54,4 +56,52 @@ exports.deletitem = async (req, res) => {
         error: err.mesage
       })
     }
+}
+
+exports.adddetails = async (req, res) => {
+  const  data = req.body
+  try {
+      const {username,email,phone} = data;
+      const db = await Cd.findOne({username})
+      var mess
+      if(!db){
+          await Cd.create({username,email,phone})
+          var mess = "Order Placed And Details Added"
+      }
+      else{
+          await Cd.findOneAndUpdate({username},{email,phone},{ runValidators: true })
+          var mess = "Order Placed And Details Updated"
+      }
+      res.status(200).json({
+          message: mess
+      })
+  } catch (err) {
+    res.status(401).json({
+      message: "Something Went Wrong",
+      error: err.mesage
+    })
+  }
+}
+
+exports.getdetails = async (req, res) => {
+  const  data = req.body
+  try {
+      const {username} = data;
+      const db = await Cd.findOne({username})
+      var mess
+      if(!db){
+          var mess = {email:"",phone:""}
+      }
+      else{
+          var mess = {email:db.email,phone:db.phone}
+      }
+      res.status(200).json({
+          message: mess
+      })
+  } catch (err) {
+    res.status(401).json({
+      message: "something went wrong",
+      error: err.mesage
+    })
+  }
 }
