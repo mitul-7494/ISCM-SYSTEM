@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+          font-family: Arial, sans-serif;
+          background-color: #f5f5f5;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          margin: 0;
+    }
+
+    .container {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          width: 400px;
+          margin-top: 25px;
+        }
+        .form-group {
+          margin-bottom: 15px;
+        }
+        label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        input[type="password"],
+        input[type="text"],
+        select
+        {
+          width: -webkit-fill-available;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+        }
+
+  button {
+    background-color: #555;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  button:hover {
+    background-color: #333;
+  }
+</style>
+<title>Login form</title>
+</head>
+<body>
+  <div class="container">
+    <center><h2>Login</h2></center>
+    <form id="loginform" method="post" action="./adminlogin" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required onchange="roleselector(this)">
+              <option value="admin">Admin</option>
+              <option value="sales">Sales Employee</option>
+              <option value="customer">Customer</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" minlength="6" required>
+        </div>
+        <button type="submit">Submit</button>
+        <% if(message != ""){ %>
+          <div class="form-group" style="color: red;">
+            <%= message %>
+          </div>
+          <% } %>
+    </form>
+  </div>
+  <script>
+    function roleselector(x){
+        var form = document.getElementById("loginform");
+        if(x.value === "admin"){
+            form.action="./adminlogin"
+        }
+        if(x.value === "sales"){
+            form.action="./saleslogin"
+        }
+        if(x.value === "customer"){
+            form.action="./customerlogin"
+        }
+    }
+  </script>
+</body>
+</html>

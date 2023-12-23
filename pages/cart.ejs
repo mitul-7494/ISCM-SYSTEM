@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cart</title>
+    <link rel="shortcut icon" href="https://avatars.githubitemcontent.com/u/77108292?v=4" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            padding-top: 52px;
+            background-color: #f4f4f4; /* Set a background color */
+        }
+
+        nav {
+            background-color: #555;
+            padding: 15px;
+            text-align: right;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #777;
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: fit-content;
+            padding: 50px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 70%;
+            text-align: center;
+        }
+
+        .carditem{
+            padding: 5px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        .itemname{
+            width: 45%;
+            padding: 2px;
+        }
+        .itemq{
+            width: 5%;
+            padding: 2px;
+        }
+        .price {
+            width: 20%;
+            padding: 2px;
+        }
+        .total {
+            width: 20%;
+            padding: 2px;
+        }
+        .button{
+            cursor: pointer;
+            width: 5%;
+            padding: 2px;
+        }
+        .totaltotal{
+            width: 20%;
+            padding: 2px;
+        }
+
+        .checkout-button {
+            display: flex;
+            background-color: #555;
+            margin-top: 15px;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-button:hover {
+            background-color: #777;
+        }
+    </style>
+    <script defer type="text/javascript" src="/static/cartsupport.js"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/app/items">Home</a>
+        <a href="/app/items/cart">Cart</a>
+        <a>
+            <span class="user-icon">
+                <%=user.username%>
+            </span>
+        </a>
+        <a href="/app/logout">
+            <span class="logout-icon">Logout</span>
+        </a>
+    </nav>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="carditem" style="font-weight: 700;">
+                <div class="itemname">
+                    Item Name
+                </div>
+                <div class="button">
+                    
+                </div>
+                <div class="itemq">
+                    Qnt
+                </div>
+                <div class="button">
+                    
+                </div>
+                <div class="price">
+                    Price($)
+                </div>
+                <div class="total">
+                    Total($)
+                </div>
+            </div>
+            <%var amount = 0%>
+            <% for(let item of items) {
+                if(item){%>
+            
+            <div class="carditem" id="<%= item.id %>">
+                <div class="itemname">
+                    <%= item.title%>
+                </div>
+                <div class="button" onclick="minus('<%= item.id %>')">
+                    -
+                </div>
+                <div class="itemq" id="q<%= item.id %>">
+                    <%= item.quantity%>
+                </div>
+                <div class="button" onclick="plus('<%= item.id %>')">
+                    +
+                </div>
+                <div class="price" id="p<%= item.id %>">
+                    <%= item.price%>.00
+                </div>
+                <div class="total" id="t<%= item.id %>">
+                    <%let total = item.price*item.quantity;
+                    var amount = amount+total %>
+                    <%= total %>.00
+                </div>
+            </div>
+            <%}}%>
+            <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
+                <div class="totaltotal" id="amount">
+                    <%= amount %>.00
+                </div>
+                <div style="width: 35%;"></div>
+                <div class="itemname">
+                    Total Amount
+                </div>
+            </div>
+        </div>
+        <button class="checkout-button">Checkout</button>
+    </div>
+</body>
+</html>
