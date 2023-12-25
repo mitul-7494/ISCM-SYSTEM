@@ -22,8 +22,8 @@ const CartSchema = new Schema({
         type: Number,
         required: true,
         min:[1, "not a vaid input"]
-    }
-
+    },
+    email:String
 })
 
 exports.cart = mongoose.model('cart', CartSchema);

@@ -6,10 +6,12 @@ async function plus(i) {
     document.getElementById('q' + i).innerText = q + 1;
     var price = +document.getElementById('p' + i).innerText
     var total = +document.getElementById('t' + i).innerText
+    var rbal = +document.getElementById('rbal').innerText
     var amount = +document.getElementById('amount').innerText
     document.getElementById('t' + i).innerText = (total + price) + '.00'
     document.getElementById('amount').innerText = (amount + price) + '.00'
-    var obj = { username: '<%= user.username %>', id: +i, quantity: q + 1 }
+    document.getElementById('rbal').innerText = (rbal - price) + '.00'
+    var obj = { username: document.getElementById('username').innerText.trim(), id: +i, quantity: q + 1 }
     await fetch('./cart', {
         method: 'PUT',
         headers: {
@@ -30,9 +32,11 @@ async function minus(i) {
     var price = +document.getElementById('p' + i).innerText
     var total = +document.getElementById('t' + i).innerText
     var amount = +document.getElementById('amount').innerText
+    var rbal = +document.getElementById('rbal').innerText
     document.getElementById('t' + i).innerText = (total - price) + '.00'
     document.getElementById('amount').innerText = (amount - price) + '.00'
-    var obj = { username: '<%= user.username %>', id: +i, quantity: q - 1 }
+    document.getElementById('rbal').innerText = (rbal + price) + '.00'
+    var obj = { username: document.getElementById('username').innerText.trim(), id: +i, quantity: q - 1 }
     if (q == 1) {
         document.getElementById(i).remove();
         await fetch('./cart', {
@@ -85,6 +89,15 @@ async function AddItemToCart(id, p, t) {
 
 
 async function orderprocess() {
+
+    if(+document.getElementById('rbal').innerText < 0){
+        alert("not sufficiance balnce")
+        return false
+    }
+    if(+document.getElementById('amount').innerText <= 0){
+        alert("add something to the cart")
+        return false
+    }
     document.getElementById("det").style.display = "block"
     var obj = {username: document.getElementById('username').innerText.trim()}
     await fetch('./cart/getdetails', {
@@ -103,11 +116,13 @@ async function orderprocess() {
 
 
 async function placeorder() {
+    document.getElementById('conf').disabled = true
     document.getElementById("det").style.display = "block"
     var obj = {username: document.getElementById('username').innerText.trim(),
         email: document.getElementById('mail').value.trim(),
         phone: document.getElementById('phone').value.trim()
     }
+    let x = ""
     await fetch('./cart/details', {
         method: 'POST',
         headers: {
@@ -117,9 +132,29 @@ async function placeorder() {
         credentials: "include"
     }).then((response) => response.json())
     .then((response) => {
-        alert(response.message)
-        document.getElementById("det").style.display = "none"
+        x = response.message
     })
-
+    
+    if(x != "N"){
+        let baseurl = window.location.href.toString().slice(0,-4)+"orders"
+        await fetch('./cart/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({baseurl}),
+            credentials: "include"
+        }).then((response) => response.json())
+        .then((response)=>{
+            console.log(response.message)
+            if(response.message != "ok"){alert(response.message); return}
+            alert(x);
+        })
+        document.getElementById("det").style.display = "none"
+        window.location.href = baseurl
+    }
+    else{
+        alert("Something went wrong with contact information")
+    }
     
 }

@@ -10,6 +10,8 @@ router
 .get('/sales',cont.salesAuth,page.orders)
 .get('/items',cont.customerAuth,page.items)
 .get('/items/cart',cont.customerAuth,page.cart)
+.get('/items/orders',cont.customerAuth,page.orders)
+.get('/items/orders/:id',page.order)
 .get('/login',page.form)
 .get('/logout',cont.logout)
 .post('/saleslogin',cont.slogin)//logins
@@ -21,6 +23,7 @@ router
 .post('/items/cart',cont.customerAuth,cart.addtocart)//cart
 .post('/items/cart/getdetails',cont.customerAuth,cart.getdetails)
 .post('/items/cart/details',cont.customerAuth,cart.adddetails)
+.post('/items/cart/order',cont.customerAuth,cart.order)
 .put('/items/cart',cont.customerAuth,cart.puttoitem)
 .delete('/items/cart',cont.customerAuth,cart.deletitem)
 module.exports = router;

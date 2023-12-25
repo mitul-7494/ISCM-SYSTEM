@@ -160,6 +160,7 @@
     <nav>
         <a href="/app/items">Home</a>
         <a href="/app/items/cart">Cart</a>
+        <a href="/app/items/orders">Orders</a>
         <a>
             <span class="user-icon" id="username">
                 <%=user.username%>
@@ -218,16 +219,35 @@
                     </div>
                     <%}}%>
                         <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
+                            <div class="totaltotal" id="balance">
+                                <%= user.balance %>.00
+                            </div>
+                            <div style="width: 35%;"></div>
+                            <div class="itemname">
+                                Your balance
+                            </div>
+                        </div>
+                        <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
                             <div class="totaltotal" id="amount">
                                 <%= amount %>.00
                             </div>
                             <div style="width: 35%;"></div>
                             <div class="itemname">
-                                Total Amount
+                                -Total Amount
                             </div>
                         </div>
+                        <div class="carditem" style="flex-direction: row-reverse; font-weight: 700;">
+                            <div class="totaltotal" id="rbal" onchange="check()" onload="check()">
+                                <%= user.balance-amount %>.00
+                            </div>
+                            <div style="width: 35%;"></div>
+                            <div class="itemname">
+                                Remaining Balance
+                            </div>
+                        </div>
+                        
         </div>
-        <button class="checkout-button" onclick="orderprocess()">Checkout</button>
+        <button class="checkout-button" id="checkout" onclick="orderprocess()">Checkout</button>
     </div>
     <div class="details" id="det">
         <div class="in">
@@ -239,7 +259,10 @@
                 <label>Phone No.</label>
                 <input type="text" id="phone" name="password" minlength="10" maxlength="10" required>
             </div>
-            <button class="checkout-button" onclick="placeorder()">Confirm</button>
+            <div style="display: flex; flex-direction: row;">
+                <button class="checkout-button" id="conf" onclick="placeorder()">Confirm</button>
+                <button class="checkout-button" style="margin-left: 5%;" onclick="(()=>{document.getElementById('det').style.display = 'none'})()" >Cancle</button>
+            </div>
         </div>
     </div>
 </body>
