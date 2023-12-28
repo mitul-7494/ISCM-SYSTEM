@@ -32,9 +32,11 @@ exports.admin = async (req, res)=>{
     })
 }
 
-exports.orders = async (req, res)=>{
-    const user = req.cookies.user
-    ejs.renderFile(path.resolve(__dirname,"..","pages","orders.ejs"),{user:user}, (err, str) => {
+exports.sorders = async (req, res)=>{
+    const username = req.cookies.user
+    const order_list = await Order.find({status:"pending"});
+    const users =  await Order.distinct("username");
+    ejs.renderFile(path.resolve(__dirname,"..","pages","sorders.ejs"),{users,username,orders:order_list.reverse()}, (err, str) => {
         if (err) {
          console.log(err)
         } else {
@@ -42,7 +44,7 @@ exports.orders = async (req, res)=>{
         }
     })
 }
-
+//single order for generating pdf
 exports.order = async (req, res)=>{
     const order = await Order.findOne({_id:{$eq:req.params.id}})
     ejs.renderFile(path.resolve(__dirname,"..","pages","order.ejs"),{order}, (err, str) => {

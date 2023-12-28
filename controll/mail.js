@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const nodemailer = require('nodemailer')
-const {unlink} = require('node:fs')
+const { unlink } = require('node:fs')
 require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, outputFilePath, i, e) => {
@@ -11,31 +11,54 @@ exports.convertUrlToPdf = async (url, outputFilePath, i, e) => {
     await page.pdf({ path: outputFilePath, format: 'A4' });
     await browser.close();
     Sendmailto(i, e, url);
-  }
-  
-  async function Sendmailto(x, y, url) {
+}
+
+async function Sendmailto(x, y, url) {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.USER,
-        pass: process.env.PASS,
-      },
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.USER,
+            pass: process.env.PASS,
+        },
     });
-    const pdf = path.resolve(__dirname,"..","public", x+".pdf")
+    const pdf = path.resolve(__dirname, "..", "public", x + ".pdf")
     const options = {
-      from: process.env.USER, // sender address
-      to: y, // receiver email
-      subject: "Order Confirmation", // Subject line
-      html: "<p>We have received and are processing your order. You will receive notification when the status is updated. The status is still pending. by logging into your account, you can also review your order history or <a href="+url+">Click here</a> to review this order process. The mail has the order invoice attached.</p>",
-      attachments: [
-        {
-          filename: 'Invoice.pdf',
-          path:pdf
-        }]
+        from: process.env.USER, // sender address
+        to: y, // receiver email
+        subject: "Order Confirmation", // Subject line
+        html: "<p>We have received and are processing your order. You will receive notification when the status is updated. The status is still pending. by logging into your account, you can also review your order history or <a href=" + url + ">Click here</a> to review this order process. The mail has the order invoice attached.</p>",
+        attachments: [
+            {
+                filename: 'Invoice.pdf',
+                path: pdf
+            }]
     }
     await transporter.sendMail(options)
-    unlink(pdf, (err) => {})
-  }
+    unlink(pdf, (err) => { })
+}
+
+exports.SendmailOfStatus = async (y, url, i) => {
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.USER,
+            pass: process.env.PASS,
+        },
+    });
+    const messages = ["<p>We pleased to inform you that your order has been <b>Approved</b>. please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='"+url+"'>click here</a>.</p><p>Thank you for choosing us!</p>",
+    "<p>We regret to inform you that your order has been <b>rejected</b>. If you have any questions or concerns regarding the rejection, please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='"+url+"'>click here</a>.<p>The amount paid for the order will be refunded to your account balance.</p></p><p>Thank you for your understanding.</p>"
+    ]
+    const options = {
+        from: process.env.USER, // sender address
+        to: y, // receiver email
+        subject: "Order Status", // Subject line
+        html: messages[i],
+    }
+    await transporter.sendMail(options)
+}

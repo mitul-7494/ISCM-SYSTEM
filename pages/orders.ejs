@@ -95,7 +95,8 @@
         <% orders.forEach(order => { %>
             <div class="order-card">
                 <h3>Order ID: <%= order._id %></h3>
-                <p><b>Status:</b> <%= order.status %></p>
+                <% let x = (order.status == "pending") ? "blue" : "red" %>
+                <p <% /* eslint-disable css-propertyvalueexpected */ %> style='color:<%= (order.status == "approved")?"green":x %>;'><b>Status:</b> <%= order.status %></p>
                 <% let s  = order.date.toString();
                 let parts = s.split(" ") %>
                 <p><b>Ordered on:</b> <%= parts[1]+"-"+parts[2]+"-"+parts[3] %></p>
