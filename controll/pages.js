@@ -10,6 +10,7 @@ const order = require('../model/order');
 const Order = order.orders;
 const sales = require('../model/sales');
 const Sales = sales.sales;
+require('dotenv').config();
 
 exports.form = async (req, res)=>{
     ejs.renderFile(path.resolve(__dirname,"..","pages","loginform.ejs"),{message: ""}, (err, str) => {
@@ -77,7 +78,7 @@ exports.cart = async (req, res)=>{
     const username = req.cookies.user
     const user = await Cus.findOne({username})
     const cart_list = await Cart.find({username});
-    ejs.renderFile(path.resolve(__dirname,"..","pages","cart.ejs"),{items:cart_list,user}, (err, str) => {
+    ejs.renderFile(path.resolve(__dirname,"..","pages","cart.ejs"),{items:cart_list,user, vercelurl: process.env.VERCEL_URL }, (err, str) => {
         if (err) {
          console.log(err)
         } else {
