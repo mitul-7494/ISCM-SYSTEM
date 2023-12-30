@@ -25,7 +25,7 @@ server.use(express.static("public"));
 server.use(bodyParser.json());
 server.use(express.urlencoded({extended: true}));
 server.use('/static', express.static('public'))
-server.use("/app", router);
+server.use("/", router);
 server.set("view engine", "ejs");
 
 server.listen(8081, ()=>{
