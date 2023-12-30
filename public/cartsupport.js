@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 async function plus(i) {
     var q = +document.getElementById('q' + i).innerText;
     if (q >= 99) {
@@ -14,7 +12,7 @@ async function plus(i) {
     document.getElementById('amount').innerText = (amount + price) + '.00'
     document.getElementById('rbal').innerText = (rbal - price) + '.00'
     var obj = { username: document.getElementById('username').innerText.trim(), id: +i, quantity: q + 1 }
-    await fetch(`https://${process.env.VERCEL_URL}/items/cart`, {
+    await fetch('./cart', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -41,7 +39,7 @@ async function minus(i) {
     var obj = { username: document.getElementById('username').innerText.trim(), id: +i, quantity: q - 1 }
     if (q == 1) {
         document.getElementById(i).remove();
-        await fetch(`https://${process.env.VERCEL_URL}/items/cart`, {
+        await fetch('./cart', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +49,7 @@ async function minus(i) {
         })
     }
     else {
-        await fetch(`https://${process.env.VERCEL_URL}/items/cart`, {
+        await fetch('./cart', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,7 +70,7 @@ async function AddItemToCart(id, p, t) {
         price: +p
     }
     document.getElementById("qnt" + id).value = "1";
-    await fetch(`https://${process.env.VERCEL_URL}/items/cart`, {
+    await fetch('./items/cart', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -102,7 +100,7 @@ async function orderprocess() {
     }
     document.getElementById("det").style.display = "block"
     var obj = {username: document.getElementById('username').innerText.trim()}
-    await fetch(`https://${process.env.VERCEL_URL}/items/cart/getdetails`, {
+    await fetch('./cart/getdetails', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -125,7 +123,7 @@ async function placeorder() {
         phone: document.getElementById('phone').value.trim()
     }
     let x = ""
-    await fetch(`https://${process.env.VERCEL_URL}/items/cart/details`, {
+    await fetch('./cart/details', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -139,7 +137,7 @@ async function placeorder() {
     
     if(x != "N"){
         let baseurl = window.location.href.toString().slice(0,-4)+"orders"
-        await fetch(`https://${process.env.VERCEL_URL}/items/cart/order`, {
+        await fetch('./cart/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

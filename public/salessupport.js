@@ -1,9 +1,6 @@
-require('dotenv').config();
-
-
 async function approver(id) {
     document.getElementById('load').style.display = "flex"
-    await fetch(`https://${process.env.VERCEL_URL}/salesa/${id}`, {
+    await fetch('./salesa/' + id, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -17,7 +14,7 @@ async function approver(id) {
 
 async function rejecter(id) {
     document.getElementById('load').style.display = "flex"
-    await fetch(`https://${process.env.VERCEL_URL}/salesr/${id}`, {
+    await fetch('./salesr/' + id, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
