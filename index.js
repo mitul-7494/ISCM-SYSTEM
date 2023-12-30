@@ -19,7 +19,13 @@ async function main(){
       console.error('Error connecting to MongoDB Atlas:', error);
     });
 }
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 server.use(cookieParser());
 server.use(express.static("public"));
 server.use(bodyParser.json());
