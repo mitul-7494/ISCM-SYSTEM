@@ -138,8 +138,7 @@ exports.order = async (req, res) => {
     const placed = await Order.create({ username, orderlist, date, cartvalue, email, status: "pending" })
     await Cart.deleteMany({ username })
     const url = baseurl + "/" + placed._id;
-    const outputFilePath = path.resolve(__dirname, "..", "public", placed._id + ".pdf");
-    await convertUrlToPdf(url, outputFilePath, placed._id, email)
+    await convertUrlToPdf(url, placed._id, email)
     res.json({ message: "ok" })
     
   }

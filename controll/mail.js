@@ -4,16 +4,16 @@ const nodemailer = require('nodemailer')
 const { unlink } = require('node:fs')
 require('dotenv').config();
 
-exports.convertUrlToPdf = async (url, outputFilePath, i, e) => {
+exports.convertUrlToPdf = async (url, i, e) => {
     const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
-    await page.pdf({ path: outputFilePath, format: 'A4' });
+    const pdfBuffer = await page.pdf({ format: 'A4' });
     await browser.close();
-    Sendmailto(i, e, url);
+    await Sendmailto(i, e, url,pdfBuffer);
 }
 
-async function Sendmailto(x, y, url) {
+async function Sendmailto(x, y, url,pdfBuffer) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
@@ -24,7 +24,6 @@ async function Sendmailto(x, y, url) {
             pass: process.env.PASS,
         },
     });
-    const pdf = path.resolve(__dirname, "..", "public", x + ".pdf")
     const options = {
         from: process.env.USER, // sender address
         to: y, // receiver email
@@ -33,11 +32,11 @@ async function Sendmailto(x, y, url) {
         attachments: [
             {
                 filename: 'Invoice.pdf',
-                path: pdf
+                content: pdfBuffer,
+                encoding: 'base64',
             }]
     }
     await transporter.sendMail(options)
-    unlink(pdf, (err) => { })
 }
 
 exports.SendmailOfStatus = async (y, url, i) => {
