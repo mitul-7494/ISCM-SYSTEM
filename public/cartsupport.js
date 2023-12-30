@@ -136,13 +136,11 @@ async function placeorder() {
     })
     
     if(x != "N"){
-        let baseurl = window.location.href.toString().slice(0,-4)+"orders"
         await fetch('./cart/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({baseurl}),
             credentials: "include"
         }).then((response) => response.json())
         .then((response)=>{
@@ -151,7 +149,6 @@ async function placeorder() {
             alert(x);
         })
         document.getElementById("det").style.display = "none"
-        window.location.href = baseurl
     }
     else{
         alert("Something went wrong with contact information")

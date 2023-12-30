@@ -121,7 +121,6 @@ exports.getdetails = async (req, res) => {
 
 exports.order = async (req, res) => {
   const username = req.cookies.user
-  const { baseurl } = req.body
   try {
     const customer = await Cus.findOne({ username })
     const cart_list = await Cart.find({ username });
@@ -137,7 +136,7 @@ exports.order = async (req, res) => {
     await Cus.findOneAndUpdate({ username }, { balance: +customer.balance - cartvalue }, { runValidators: true })
     const placed = await Order.create({ username, orderlist, date, cartvalue, email, status: "pending" })
     await Cart.deleteMany({ username })
-    const url = baseurl + "/" + placed._id;
+    const url = "https://"+process.env.VERCEL_URL+"/items/orders/"+placed._id;
     await convertUrlToPdf(url, placed._id, email)
     res.json({ message: "ok" })
     
