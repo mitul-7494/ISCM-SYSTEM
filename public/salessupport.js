@@ -1,6 +1,6 @@
 async function approver(id) {
     document.getElementById('load').style.display = "flex"
-    await fetch('./salesa/' + id, {
+    await fetch(`https://${process.env.VERCEL_URL}/salesa/${id}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -14,7 +14,7 @@ async function approver(id) {
 
 async function rejecter(id) {
     document.getElementById('load').style.display = "flex"
-    await fetch('./salesr/' + id, {
+    await fetch(`https://${process.env.VERCEL_URL}/salesr/${id}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
