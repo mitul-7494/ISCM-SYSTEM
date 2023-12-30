@@ -54,12 +54,6 @@ The Integrated Sales and Customer Management System is designed to streamline an
 
 ### Security and Data Integrity
 
-- Robust security measures to safeguard sensitive data and comply with data protection regulations.
-  
-  #### Encryption
-
-  - Implementation of encryption for sensitive data, including customer details and password storage, using industry-standard encryption algorithms.
-
   #### Validation and Data Integrity
 
   - Incorporation of data validation and verification mechanisms to maintain data integrity.
@@ -71,13 +65,50 @@ Thorough documentation is available in the [docs](./docs) folder, including:
 
 - [System Architecture](./docs/system-architecture.md)
 - [Database Schema](./docs/database-schema.md)
-- [User Manuals](./docs/user-manuals.md)
 
 ## Getting Started
 
-Follow the steps below to get the project up and running locally.
+Follow the steps below to get the Integrated Sales and Customer Management System project up and running locally.
+**after fifteen deployment attempts, I'm going to hang it up for now.**
 
-1. Clone the repository:
+### Prerequisites
 
-   ```bash
-   git clone https://github.com/mitul-7494/ISCM-SYSTEM.git
+Before you begin, ensure you have the following installed on your machine:
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/mitul-7494/ISCM-SYSTEM.git
+```
+
+### Get to that directory in command prompt
+
+get all the dependencies
+```bash
+npm init
+```
+
+### Create one .env file containing variables
+
+```bash
+URI="mongodb connection uri"
+HEX  |  npm i crypto then
+HEXS |  node
+HEXC |  > crypto.randomBytes(32).toString("HEX") diffrent for all 3
+//have to create a app password by google refrence given below
+USER="mail_id of app password is created"
+PASS="app pass for above id"
+```
+generate app password [as given](https://www.febooti.com/products/automation-workshop/tutorials/enable-google-app-passwords-for-smtp.html)
+
+### Run following command at root directory
+
+```bash
+npm start
+```
+create admin user by loging ui is given to add more sales and customer users.
+
+###voila

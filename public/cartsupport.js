@@ -12,7 +12,7 @@ async function plus(i) {
     document.getElementById('amount').innerText = (amount + price) + '.00'
     document.getElementById('rbal').innerText = (rbal - price) + '.00'
     var obj = { username: document.getElementById('username').innerText.trim(), id: +i, quantity: q + 1 }
-    await fetch('https://'+document.getElementById('url').innerText.trim()+'/items/cart', {
+    await fetch('./cart', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
