@@ -1,3 +1,5 @@
+// require('dotenv').config();
+
 async function plus(i) {
     var q = +document.getElementById('q' + i).innerText;
     if (q >= 99) {

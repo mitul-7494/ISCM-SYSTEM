@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 async function approver(id) {
     document.getElementById('load').style.display = "flex"
     await fetch(`https://${process.env.VERCEL_URL}/salesa/${id}`, {
