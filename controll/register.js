@@ -48,7 +48,8 @@ exports.register_s = async (req, res) => {
         res.redirect('./admin?e=' + encodeURIComponent('user created successfully'))
       )}
       else{
-        res.redirect('./admin?e=' + encodeURIComponent('user already exist'))
+        await Sales.findOneAndUpdate({username},{password},{runValidators:true})
+        res.redirect('./admin?e=' + encodeURIComponent('password changed'))
       }
     } catch (err) {
       res.status(401).json({
@@ -74,7 +75,8 @@ exports.register_c = async (req, res) => {
       res.redirect('./admin?e=' + encodeURIComponent('user created successfully'))
     )}
     else{
-      res.redirect('./admin?e=' + encodeURIComponent('not valid user'))
+      await Customer.findOneAndUpdate({username},{password, balance},{runValidators:true})
+      res.redirect('./admin?e=' + encodeURIComponent('balance and password changed'))
     }
   } catch (err) {
     res.status(401).json({
