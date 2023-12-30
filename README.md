@@ -1,4 +1,4 @@
-# Integrated Sales and Customer Management System
+ # Integrated Sales and Customer Management System
 
 ## Project Overview
 
@@ -111,4 +111,4 @@ npm start
 ```
 create admin user by loging ui is given to add more sales and customer users.
 
-###voila
+### Voila
