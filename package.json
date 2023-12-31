@@ -4,8 +4,8 @@
   "description": "Integrated Sales and Customer Management System",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "test": "nodemon index.js",
     "build": "NODE_ENV=production"
   },
   "author": "MITUL",
