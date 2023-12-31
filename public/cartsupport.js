@@ -149,6 +149,7 @@ async function placeorder() {
             alert(x);
         })
         document.getElementById("det").style.display = "none"
+        window.location.href = window.location.href.split("cart")[0]+"orders";
     }
     else{
         alert("Something went wrong with contact information")

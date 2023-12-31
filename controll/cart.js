@@ -136,7 +136,7 @@ exports.order = async (req, res) => {
     await Cus.findOneAndUpdate({ username }, { balance: +customer.balance - cartvalue }, { runValidators: true })
     const placed = await Order.create({ username, orderlist, date, cartvalue, email, status: "pending" })
     await Cart.deleteMany({ username })
-    const url = "https://"+process.env.VERCEL_URL+"/items/orders/"+placed._id;
+    const url = req.protocol+'://'+ req.get('host')+"/items/orders/"+placed._id;
     await convertUrlToPdf(url, placed._id, email)
     res.json({ message: "ok" })
     
