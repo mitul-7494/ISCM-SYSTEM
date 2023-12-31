@@ -156,7 +156,7 @@ exports.mail = async (req, res)=>{
   } catch (error) {
     res.status(401).json({
       message: "something went wrong here",
-      error: err.mesage
+      error: error.mesage
     })
   }
 }

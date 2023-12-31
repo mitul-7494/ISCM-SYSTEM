@@ -8,8 +8,10 @@ exports.convertUrlToPdf = async (url, e) => {
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
     const pdfBuffer = await page.pdf({ format: 'A4' });
-    await browser.close();
+    browser.close();
+    console.log("converte head to the mail")
     await Sendmailto(e, url,pdfBuffer);
+    console.log("headed back")
 }
 
 async function Sendmailto(y, url,pdfBuffer) {
@@ -33,9 +35,11 @@ async function Sendmailto(y, url,pdfBuffer) {
                 filename: 'Invoice.pdf',
                 content: pdfBuffer,
                 encoding: 'base64',
-            }]
+        }]
     }
+    console.log("mail opts ready");
     await transporter.sendMail(options)
+    console.log("mail sent")
 }
 
 exports.SendmailOfStatus = async (y, url, i) => {

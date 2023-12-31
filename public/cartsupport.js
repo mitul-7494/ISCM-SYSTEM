@@ -147,8 +147,7 @@ async function placeorder() {
             if(response.message != "ok"){alert(response.message); return}
             message_id = response._id;
             
-        })
-        document.getElementById("det").style.display = "none"   
+        }) 
         alert(x);
     }
     else{
@@ -171,5 +170,6 @@ async function placeorder() {
     } catch (error) {
         alert("mail can not be sent")
     }
+    document.getElementById("det").style.display = "none"
     window.location.href = window.location.href.split("cart")[0]+"orders"
 }
