@@ -1,12 +1,22 @@
 // const { chromium } = require('playwright')
-const pu = require('puppeteer')
+const puppeteer = require('puppeteer')
 const nodemailer = require('nodemailer')
 require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e) => {
     console.log("process start")
-    // console.log((process.env.NODE_ENV) ? "cromium":"pu");(process.env.NODE_ENV) ?  await chromium.launch() :
-    const browser = await pu.launch({ headless: 'new'});
+    const browser = await puppeteer.launch({
+        args: [
+          "--disable-setuid-sandbox",
+          "--no-sandbox",
+          "--single-process",
+          "--no-zygote",
+        ],
+        executablePath:
+          process.env.NODE_ENV === "production"
+            ? process.env.PUPPETEER_EXECUTABLE_PATH
+            : puppeteer.executablePath(),
+      });
     console.log("process continue")
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
