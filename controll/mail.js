@@ -16,6 +16,7 @@ exports.convertUrlToPdf = async (url, e) => {
           process.env.NODE_ENV === "production"
             ? process.env.PUPPETEER_EXECUTABLE_PATH
             : puppeteer.executablePath(),
+        headless: "new",
       });
     console.log("process continue")
     const page = await browser.newPage();
