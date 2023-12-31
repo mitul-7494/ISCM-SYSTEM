@@ -15,7 +15,7 @@ exports.approve = async (req, res) => {
     const _id = req.params.id
     var fullUrl = req.protocol + '://' + req.get('host') + "/items/orders/" +_id;
     const ord = await Order.findOneAndUpdate({_id},{status:"approved",approvedby:req.cookies.user}, { runValidators: true })
-    SendmailOfStatus(ord.email, fullUrl, 0)
+    await SendmailOfStatus(ord.email, fullUrl, 0)
     res.end()
 }
 
@@ -23,7 +23,7 @@ exports.reject = async (req, res) => {
     const _id = req.params.id
     var fullUrl = req.protocol + '://' + req.get('host') + "/items/orders/" +_id;
     const ord = await Order.findOneAndUpdate({_id},{status:"rejected",approvedby:req.cookies.user}, { runValidators: true })
-    SendmailOfStatus(ord.email, fullUrl, 1)
+    await SendmailOfStatus(ord.email, fullUrl, 1)
     const customer = await Cus.findOne({username:{$eq:ord.username}})
     const balance = customer.balance + ord.cartvalue
     await Cus.findOneAndUpdate({username:{$eq:ord.username}}, {balance},{runValidators:true})
