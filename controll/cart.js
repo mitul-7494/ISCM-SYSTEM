@@ -136,8 +136,7 @@ exports.order = async (req, res) => {
     await Cus.findOneAndUpdate({ username }, { balance: +customer.balance - cartvalue }, { runValidators: true })
     const placed = await Order.create({ username, orderlist, date, cartvalue, email, status: "pending" })
     await Cart.deleteMany({ username })
-    var fullUrl = 'http://' + req.get('host') + "/items/cart/mail";
-    res.json({ message: "ok", _id: placed._id, fullUrl})
+    res.json({ message: "ok", _id: placed._id})
   }
   catch (err) {
     res.status(401).json({
@@ -151,7 +150,7 @@ exports.order = async (req, res) => {
 exports.mail = async (req, res)=>{
   const {_id, email} = req.body;
   try {
-    var fullUrl = 'http://' + req.get('host') + "/items/orders/" +_id;
+    var fullUrl = 'https://' + req.get('host') + "/items/orders/" +_id;
     await convertUrlToPdf(fullUrl,email);
     res.json({message:"ok"});
   } catch (error) {

@@ -136,7 +136,6 @@ async function placeorder() {
         x = response.message
     })
     let message_id = ""
-    let baseurl = ""
     if(x != "N"){
         await fetch('./cart/order', {
             method: 'POST',
@@ -148,7 +147,7 @@ async function placeorder() {
         .then((response)=>{
             if(response.message != "ok"){alert(response.message); return}
             message_id = response._id;
-            baseurl = response.fullUrl;
+            
         }) 
         alert(x);
     }
@@ -158,7 +157,7 @@ async function placeorder() {
     }   
     obj2 = {_id : message_id, email:obj.email}
     try {
-        await fetch(baseurl, {
+        await fetch('./cart/mail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
