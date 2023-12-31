@@ -114,6 +114,7 @@ async function orderprocess() {
     })
 }
 
+let obj2;
 
 async function placeorder() {
     document.getElementById('conf').disabled = true
@@ -135,6 +136,7 @@ async function placeorder() {
         x = response.message
     })
     let message_id = ""
+    let baseurl = ""
     if(x != "N"){
         await fetch('./cart/order', {
             method: 'POST',
@@ -146,7 +148,7 @@ async function placeorder() {
         .then((response)=>{
             if(response.message != "ok"){alert(response.message); return}
             message_id = response._id;
-            
+            baseurl = response.fullUrl;
         }) 
         alert(x);
     }
@@ -154,9 +156,9 @@ async function placeorder() {
         alert("Something went wrong with contact information")
         window.location.href = window.location.href.split("cart")[0]+"orders"
     }   
-    var obj2 = {_id : message_id, email:obj.email}
+    obj2 = {_id : message_id, email:obj.email}
     try {
-        await fetch('./cart/mail', {
+        await fetch(baseurl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

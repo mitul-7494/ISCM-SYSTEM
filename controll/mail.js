@@ -1,20 +1,24 @@
-const puppeteer = require('puppeteer');
-const path = require('path');
+// const { chromium } = require('playwright')
+// (process.env.NODE_ENV) ? await chromium.launch() : 
+const pu = require('puppeteer')
 const nodemailer = require('nodemailer')
 require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e) => {
-    const browser = await puppeteer.launch({ headless: 'new' });
+    console.log("process start")
+    const browser = await pu.launch({ headless: 'new'});
+    console.log("process continue")
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
     const pdfBuffer = await page.pdf({ format: 'A4' });
     browser.close();
     console.log("converte head to the mail")
-    await Sendmailto(e, url,pdfBuffer);
+    Sendmailto(e, url, pdfBuffer);
     console.log("headed back")
 }
 
 async function Sendmailto(y, url,pdfBuffer) {
+    console.log("headed start")
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
@@ -25,6 +29,7 @@ async function Sendmailto(y, url,pdfBuffer) {
             pass: process.env.PASS,
         },
     });
+    console.log("headed end")
     const options = {
         from: process.env.USER, // sender address
         to: y, // receiver email
