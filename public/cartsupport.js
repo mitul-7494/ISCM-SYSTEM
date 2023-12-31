@@ -153,6 +153,5 @@ async function placeorder() {
     }
     else{
         alert("Something went wrong with contact information")
-    }
-    
+    }   
 }
