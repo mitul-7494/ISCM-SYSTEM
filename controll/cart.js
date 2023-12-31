@@ -150,7 +150,7 @@ exports.order = async (req, res) => {
 exports.mail = async (req, res)=>{
   const {_id, email} = req.body;
   try {
-    var fullUrl = 'https://' + req.get('host') + "/items/orders/" +_id;
+    var fullUrl = req.protocol +'://' + req.get('host') + "/items/orders/" +_id;
     await convertUrlToPdf(fullUrl,email);
     res.json({message:"ok"});
   } catch (error) {
