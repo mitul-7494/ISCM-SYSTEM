@@ -1,19 +1,18 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const nodemailer = require('nodemailer')
-const { unlink } = require('node:fs')
 require('dotenv').config();
 
-exports.convertUrlToPdf = async (url, i, e) => {
+exports.convertUrlToPdf = async (url, e) => {
     const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
     const pdfBuffer = await page.pdf({ format: 'A4' });
     await browser.close();
-    await Sendmailto(i, e, url,pdfBuffer);
+    await Sendmailto(e, url,pdfBuffer);
 }
 
-async function Sendmailto(x, y, url,pdfBuffer) {
+async function Sendmailto(y, url,pdfBuffer) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",

@@ -134,7 +134,7 @@ async function placeorder() {
     .then((response) => {
         x = response.message
     })
-    
+    let message_id = ""
     if(x != "N"){
         await fetch('./cart/order', {
             method: 'POST',
@@ -144,14 +144,32 @@ async function placeorder() {
             credentials: "include"
         }).then((response) => response.json())
         .then((response)=>{
-            console.log(response.message)
             if(response.message != "ok"){alert(response.message); return}
-            alert(x);
+            message_id = response._id;
+            
         })
-        document.getElementById("det").style.display = "none"
-        window.location.href = window.location.href.split("cart")[0]+"orders";
+        document.getElementById("det").style.display = "none"   
+        alert(x);
     }
     else{
         alert("Something went wrong with contact information")
+        window.location.href = window.location.href.split("cart")[0]+"orders"
     }   
+    var obj2 = {_id : message_id, email:obj.email}
+    try {
+        await fetch('./cart/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj2),
+            credentials: "include"
+        }).then((response) => response.json())
+        .then((response) => {
+            x = response.message
+        })
+    } catch (error) {
+        alert("mail can not be sent")
+    }
+    window.location.href = window.location.href.split("cart")[0]+"orders"
 }

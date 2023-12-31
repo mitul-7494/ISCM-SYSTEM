@@ -136,10 +136,24 @@ exports.order = async (req, res) => {
     await Cus.findOneAndUpdate({ username }, { balance: +customer.balance - cartvalue }, { runValidators: true })
     const placed = await Order.create({ username, orderlist, date, cartvalue, email, status: "pending" })
     await Cart.deleteMany({ username })
-    res.json({ message: "ok" })
-    
+    res.json({ message: "ok", _id: placed._id})
   }
   catch (err) {
+    res.status(401).json({
+      message: "something went wrong here",
+      error: err.mesage
+    })
+  }
+}
+
+
+exports.mail = async (req, res)=>{
+  const {_id, email} = req.body;
+  try {
+    var fullUrl = req.protocol + '://' + req.get('host') + "/items/orders/" +_id;
+    await convertUrlToPdf(fullUrl,email);
+    res.json({message:"ok"});
+  } catch (error) {
     res.status(401).json({
       message: "something went wrong here",
       error: err.mesage
