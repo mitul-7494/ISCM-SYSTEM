@@ -6,15 +6,16 @@
     <link rel="shortcut icon" href="https://avatars.githubitemcontent.com/u/77108292?v=4" type="image/x-icon">
     <style>
         body {
-            margin: 0;
+            margin-left: auto;
+            margin-right: auto;
             font-family: 'Arial', sans-serif;
             padding-top: 52px;
+            
         }
 
         .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-left: 10%;
+            margin-top: 5%;
         }
 
         
@@ -35,16 +36,14 @@
             list-style-type: none;
             padding: 0;
         }
-
+        
         .item{
-            display: flex;
-            flex-direction: row;
-            padding-bottom: 5px;
+            padding-bottom: 10px;
         }
 
-        .itemt{display: flex;width:50%;}
-        .itemp{display: flex;width:25%;justify-content: center;}
-        .itemq{display: flex;width:25%;justify-content: center;}
+        .itemt{display: inline-block;width:50%;}
+        .itemp{display: inline-block;width:22.9%;text-align: center;}
+        .itemq{display: inline-block;width:24.9%;text-align: center;}
         
     </style>
     <script defer type="text/javascript" src="/static/cartsupport.js"></script>
@@ -70,7 +69,7 @@
                         </div>
                     <% }); %>
                 </div><hr>
-                <p style="display: flex; flex-direction: row; justify-content: space-between;"><b style="width: 75%;">Order Value:</b> <span style="display: flex;width: 25%; justify-content: center;">$<%= order.cartvalue %>.00</span></p><hr>
+                <div style="display: inline-block;width: 75%; font-weight: bold; padding: 7px 0px;"></b>Order Value:</b></div><div style="display: inline-block; width: 25%;text-align: center;">$<%= order.cartvalue %>.00</div><hr>
             </div> 
     </div>
 </body>

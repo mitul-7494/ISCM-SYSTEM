@@ -1,18 +1,35 @@
-const puppeteer = require('puppeteer')
+const order = require('../model/order');
+const ejs = require('ejs')
+const Order = order.orders;
+const path = require('path');
+const pdf = require('html-pdf');
 const nodemailer = require('nodemailer')
 require('dotenv').config();
 
-exports.convertUrlToPdf = async (url, e) => {
-    console.log("process start")
-    const browser = await puppeteer.launch({args:['-no-sendbox'],executablePath:'google-chrome-stable',headless: "new"});
-    console.log("process continue")
-    const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle0' });
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-    browser.close();
-    console.log("converte head to the mail")
-    Sendmailto(e, url, pdfBuffer);
-    console.log("headed back")
+exports.convertUrlToPdf = async (url, e, _id) => {
+    console.log("p s")
+    let pdfBuffer = "" 
+    const order = await Order.findOne({_id});
+    console.log(order)
+    ejs.renderFile(path.resolve(__dirname,"..","pages","order.ejs"), {order}, (err, str) => {
+        console.log("ok-1");
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("ok0")
+            var options = { format: 'Letter' }
+            pdf.create(str, options).toBuffer(function (err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("ok1")
+                    Sendmailto(e, url, data);
+                    console.log("headed back")
+                }
+            });
+        }
+    })
+    
 }
 
 async function Sendmailto(y, url,pdfBuffer) {
