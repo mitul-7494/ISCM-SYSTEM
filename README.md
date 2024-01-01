@@ -4,7 +4,7 @@
 deployment completed at diffrent branch but main branch contain invoice sending with puppeteer which is harder to deploy, another way is that direct internally pass the ejs page and convert into invoice pdf
 by html-pdf used in branch qwertyuiop check out deployment customer side
 id:-guest
-pass:-guest
+pass:-customer
 
 ## Project Overview
 
