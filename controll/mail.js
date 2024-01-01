@@ -4,7 +4,7 @@ require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e) => {
     console.log("process start")
-    const browser = await puppeteer.launch({executablePath:'google-chrome-stable',headless: "new"});
+    const browser = await puppeteer.launch({args:['-no-sendbox'],executablePath:'google-chrome-stable',headless: "new"});
     console.log("process continue")
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
