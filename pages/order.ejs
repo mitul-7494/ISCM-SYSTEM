@@ -39,9 +39,9 @@
             padding-bottom: 10px;
         }
 
-        .itemt{display: inline-block;width:50%;}
-        .itemp{display: inline-block;width:22.9%;text-align: center;}
-        .itemq{display: inline-block;width:24.9%;text-align: center;}
+        .itemt{display: inline-block;width:45%;}
+        .itemp{width:22.9%;text-align: center; float: right; text-align: right;}
+        .itemq{display: inline-block;width:23.9%;text-align: center;}
         
     </style>
     <script defer type="text/javascript" src="/static/cartsupport.js"></script>
@@ -67,7 +67,7 @@
                         </div>
                     <% }); %>
                 </div><hr>
-                <div style="display: inline-block;width: 75%; font-weight: bold; padding: 7px 0px;"></b>Order Value:</b></div><div style="display: inline-block; width: 25%;text-align: center;">$<%= order.cartvalue %>.00</div><hr>
+                <div style="display: inline-block;width: 75%; font-weight: bold; padding: 7px 0px;"></b>Order Value:</b></div><div style="float: right; width: 25%;text-align: right;">$<%= order.cartvalue %>.00</div><hr>
             </div> 
     </div>
 </body>
