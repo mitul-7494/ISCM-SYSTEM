@@ -24,10 +24,12 @@
             padding: 20px;
             width: 80%;
             margin-bottom: 20px;
+            font-size: large;
         }
 
         h2 {
             margin-top: 0;
+            font-size: larger;
         }
 
         .item-list {
@@ -49,7 +51,7 @@
 
 <body>
     <div class="card-container">
-            <div class="order-card">
+            <%if(!opt){%><div class="order-card"><%}else{%><div class="order-card" style="font-size: smaller;"><%}%>
                 <h2>Order ID: <%= order._id %></h2>
                 <% let x = (order.status == "pending") ? "blue" : "red" %>
                 <p <% /* eslint-disable css-propertyvalueexpected */ %> style='color:<%= (order.status == "approved")?"green":x %>;'><b>Status:</b> <%= order.status %></p>

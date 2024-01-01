@@ -52,7 +52,7 @@ exports.sorders = async (req, res)=>{
 //single order for generating pdf
 exports.order = async (req, res)=>{
     const order = await Order.findOne({_id:{$eq:req.params.id}})
-    ejs.renderFile(path.resolve(__dirname,"..","pages","order.ejs"),{order}, (err, str) => {
+    ejs.renderFile(path.resolve(__dirname,"..","pages","order.ejs"),{order, opt:false}, (err, str) => {
         if (err) {
          console.log(err)
         } else {

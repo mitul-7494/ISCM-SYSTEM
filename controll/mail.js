@@ -8,7 +8,8 @@ require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e, _id) => {
     const order = await Order.findOne({ _id });
-    ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), { order }, (err, str) => {    
+    const obj = (process.env.NODE_ENV == "production") ? {order, opt:true} : {order, opt:false}
+    ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), obj, (err, str) => {    
         if (err) {
             console.log(err);
         } else {        
