@@ -7,16 +7,13 @@ const nodemailer = require('nodemailer')
 require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e, _id) => {
-    console.log("p s")
     const order = await Order.findOne({ _id });
-    ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), { order }, (err, str) => {
-        console.log("ok-1");
+    ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), { order }, (err, str) => {    
         if (err) {
             console.log(err);
-        } else {
-            console.log("ok0")
+        } else {        
             var options = {
-                format: 'Letter', childProcessOptions: {
+                format: 'A4', childProcessOptions: {
                     env: {
                         OPENSSL_CONF: '/dev/null',
                     },
@@ -26,8 +23,7 @@ exports.convertUrlToPdf = async (url, e, _id) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    Sendmailto(e, url, data);
-                    console.log("headed back")
+                    Sendmailto(e, url, data);                
                 }
             });
         }
@@ -36,7 +32,6 @@ exports.convertUrlToPdf = async (url, e, _id) => {
 }
 
 async function Sendmailto(y, url, pdfBuffer) {
-    console.log("headed start")
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
@@ -60,7 +55,6 @@ async function Sendmailto(y, url, pdfBuffer) {
             }]
     }
     await transporter.sendMail(options)
-    console.log("mail sent")
 }
 
 exports.SendmailOfStatus = async (y, url, i) => {
