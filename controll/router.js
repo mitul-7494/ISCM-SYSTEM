@@ -12,7 +12,7 @@ router
 .get('/items',cont.customerAuth,page.items)
 .get('/items/cart',cont.customerAuth,page.cart)
 .get('/items/orders',cont.customerAuth,page.orders)
-.get('/items/orders/:id',page.order)//PDF generation
+.get('/items/orders/:id',page.order)//user visible
 .get('/login',page.form)
 .get('/logout',cont.logout)
 .post('/saleslogin',cont.slogin)//logins
@@ -27,7 +27,7 @@ router
 .post('/items/cart/getdetails',cont.customerAuth,cart.getdetails)
 .post('/items/cart/details',cont.customerAuth,cart.adddetails)
 .post('/items/cart/order',cont.customerAuth,cart.order)
-.post('/items/cart/mail',(req,res,next)=>{res.header("Keep-Alive", "timeout=15,max=50");next()},cart.mail)//smtp
+.post('/items/cart/mail',[(req,res,next)=>{res.header("Keep-Alive", "timeout=15,max=50");next()},cont.customerAuth],cart.mail)//smtp
 .put('/items/cart',cont.customerAuth,cart.puttoitem)
 .delete('/items/cart',cont.customerAuth,cart.deletitem)
 .get('/',(req,res)=>{res.redirect("/login")})
