@@ -8,9 +8,7 @@ require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e, _id) => {
     console.log("p s")
-    let pdfBuffer = ""
     const order = await Order.findOne({ _id });
-    console.log(order)
     ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), { order }, (err, str) => {
         console.log("ok-1");
         if (err) {
@@ -28,7 +26,6 @@ exports.convertUrlToPdf = async (url, e, _id) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log("ok1")
                     Sendmailto(e, url, data);
                     console.log("headed back")
                 }
@@ -50,7 +47,6 @@ async function Sendmailto(y, url, pdfBuffer) {
             pass: process.env.PASS,
         },
     });
-    console.log("headed end")
     const options = {
         from: process.env.USER, // sender address
         to: y, // receiver email
@@ -63,7 +59,6 @@ async function Sendmailto(y, url, pdfBuffer) {
                 encoding: 'base64',
             }]
     }
-    console.log("mail opts ready");
     await transporter.sendMail(options)
     console.log("mail sent")
 }
