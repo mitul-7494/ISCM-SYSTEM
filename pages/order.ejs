@@ -43,7 +43,7 @@
 
         .itemt{display: inline-block;width:45%;}
         .itemp{width:22.9%;text-align: center; float: right; text-align: right;}
-        .itemq{display: inline-block;width:23.9%;text-align: center;}
+        .itemq{display: inline-block;width:23.9%;text-align: center; vertical-align: top;}
         
     </style>
     <script defer type="text/javascript" src="/static/cartsupport.js"></script>
@@ -51,7 +51,7 @@
 
 <body>
     <div class="card-container">
-            <%if(!opt){%><div class="order-card"><%}else{%><div class="order-card" style="font-size: smaller;"><%}%>
+            <%if(!opt){%><div class="order-card"><%}else{%><div class="order-card" style="font-size: xx-small;"><%}%>
                 <h2>Order ID: <%= order._id %></h2>
                 <% let x = (order.status == "pending") ? "blue" : "red" %>
                 <p <% /* eslint-disable css-propertyvalueexpected */ %> style='color:<%= (order.status == "approved")?"green":x %>;'><b>Status:</b> <%= order.status %></p>
