@@ -8,16 +8,22 @@ require('dotenv').config();
 
 exports.convertUrlToPdf = async (url, e, _id) => {
     console.log("p s")
-    let pdfBuffer = "" 
-    const order = await Order.findOne({_id});
+    let pdfBuffer = ""
+    const order = await Order.findOne({ _id });
     console.log(order)
-    ejs.renderFile(path.resolve(__dirname,"..","pages","order.ejs"), {order}, (err, str) => {
+    ejs.renderFile(path.resolve(__dirname, "..", "pages", "order.ejs"), { order }, (err, str) => {
         console.log("ok-1");
         if (err) {
             console.log(err);
         } else {
             console.log("ok0")
-            var options = { format: 'Letter' }
+            var options = {
+                format: 'Letter', childProcessOptions: {
+                    env: {
+                        OPENSSL_CONF: '/dev/null',
+                    },
+                }
+            }
             pdf.create(str, options).toBuffer(function (err, data) {
                 if (err) {
                     console.log(err);
@@ -29,10 +35,10 @@ exports.convertUrlToPdf = async (url, e, _id) => {
             });
         }
     })
-    
+
 }
 
-async function Sendmailto(y, url,pdfBuffer) {
+async function Sendmailto(y, url, pdfBuffer) {
     console.log("headed start")
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -55,7 +61,7 @@ async function Sendmailto(y, url,pdfBuffer) {
                 filename: 'Invoice.pdf',
                 content: pdfBuffer,
                 encoding: 'base64',
-        }]
+            }]
     }
     console.log("mail opts ready");
     await transporter.sendMail(options)
@@ -73,8 +79,8 @@ exports.SendmailOfStatus = async (y, url, i) => {
             pass: process.env.PASS,
         },
     });
-    const messages = ["<p>We pleased to inform you that your order has been <b>Approved</b>. please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='"+url+"'>click here</a>.</p><p>Thank you for choosing us!</p>",
-    "<p>We regret to inform you that your order has been <b>rejected</b>. If you have any questions or concerns regarding the rejection, please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='"+url+"'>click here</a>.<p>The amount paid for the order will be refunded to your account balance.</p></p><p>Thank you for your understanding.</p>"
+    const messages = ["<p>We pleased to inform you that your order has been <b>Approved</b>. please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='" + url + "'>click here</a>.</p><p>Thank you for choosing us!</p>",
+    "<p>We regret to inform you that your order has been <b>rejected</b>. If you have any questions or concerns regarding the rejection, please feel free to reach out to our customer support. You can also log into your account to review the details or <a href='" + url + "'>click here</a>.<p>The amount paid for the order will be refunded to your account balance.</p></p><p>Thank you for your understanding.</p>"
     ]
     const options = {
         from: process.env.USER, // sender address
