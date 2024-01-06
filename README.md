@@ -2,7 +2,7 @@
  
 **_NOTE:_**
 deployment completed at diffrent branch but main branch contain invoice sending with puppeteer which is harder to deploy, another way is that direct internally pass the ejs page and convert into invoice pdf
-by html-pdf used in branch qwertyuiop check out deployment customer side
+by html-pdf used in branch (qwertyuiop)[https://github.com/mitul-7494/ISCM-SYSTEM/tree/qwertyuiop] check out (deployment)[https://iscm-system.onrender.com/login] customer side
 id:-guest
 pass:-customer
 
