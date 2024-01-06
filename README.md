@@ -67,10 +67,10 @@ The Integrated Sales and Customer Management System is designed to streamline an
 
 ## Documentation
 
-Thorough documentation is available in the [docs](./docs) folder, including:
+Thorough documentation is available in the [docs](./doc) folder, including:
 
-- [System Architecture](./docs/system-architecture.md)
-- [Database Schema](./docs/database-schema.md)
+- [System Architecture](./doc/system-architecture.md)
+- [Database Schema](./doc/database-schema.md)
 
 ## Getting Started
 
