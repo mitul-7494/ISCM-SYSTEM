@@ -137,7 +137,6 @@ async function placeorder() {
         alert("Please enter a valid email address.");
         // Re-enable submit button and hide loading message
         document.getElementById('conf').disabled = false;
-        document.getElementById("det").style.display = "none";
         return;
     }
 
@@ -145,7 +144,6 @@ async function placeorder() {
         alert("Please enter a valid 10-digit phone number.");
         // Re-enable submit button and hide loading message
         document.getElementById('conf').disabled = false;
-        document.getElementById("det").style.display = "none";
         return;
     }
     
