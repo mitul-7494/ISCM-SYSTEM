@@ -116,9 +116,36 @@ async function orderprocess() {
 
 let obj2;
 
+async function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+async function validatePhone(phone) {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
+}
+
 async function placeorder() {
-    document.getElementById('conf').disabled = true
-    document.getElementById("det").style.display = "block"
+    document.getElementById('conf').disabled = true;
+    document.getElementById("det").style.display = "block";
+
+    if (!await validateEmail(email)) {
+        alert("Please enter a valid email address.");
+        // Re-enable submit button and hide loading message
+        document.getElementById('conf').disabled = false;
+        document.getElementById("det").style.display = "none";
+        return;
+    }
+
+    if (!await validatePhone(phone)) {
+        alert("Please enter a valid 10-digit phone number.");
+        // Re-enable submit button and hide loading message
+        document.getElementById('conf').disabled = false;
+        document.getElementById("det").style.display = "none";
+        return;
+    }
+    
     var obj = {username: document.getElementById('username').innerText.trim(),
         email: document.getElementById('mail').value.trim(),
         phone: document.getElementById('phone').value.trim()
