@@ -130,6 +130,9 @@ async function placeorder() {
     document.getElementById('conf').disabled = true;
     document.getElementById("det").style.display = "block";
 
+    let email = document.getElementById('mail').value.trim();
+    let phone = document.getElementById('phone').value.trim();
+    
     if (!await validateEmail(email)) {
         alert("Please enter a valid email address.");
         // Re-enable submit button and hide loading message
@@ -147,8 +150,7 @@ async function placeorder() {
     }
     
     var obj = {username: document.getElementById('username').innerText.trim(),
-        email: document.getElementById('mail').value.trim(),
-        phone: document.getElementById('phone').value.trim()
+        email,phone 
     }
     let x = ""
     await fetch('./cart/details', {
