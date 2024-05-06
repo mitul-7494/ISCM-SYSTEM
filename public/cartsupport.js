@@ -60,7 +60,8 @@ async function minus(i) {
     }
 }
 
-async function AddItemToCart(id, p, t) {
+async function AddItemToCart(element,id, p, t) {
+    element.disabled = true;
     document.getElementById("mes").style.display = "flex";
     document.querySelector('[class="text"]').style.display = 'none'
     var q = document.getElementById("qnt" + id).value;
