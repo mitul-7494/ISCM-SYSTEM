@@ -195,7 +195,7 @@
                             <span>Qnt: </span><input type="number" id="qnt<%=item.id%>" min="1" max="99" value="1"
                                 onkeydown="return false" onfocus="this.blur()">
                             <span style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="right" title="Add to Cart"
-                                onclick="AddItemToCart('<%=item.id%>','<%=item.price%>','<%=item.title%>');">🛒</span>
+                                onclick="AddItemToCart(this, '<%=item.id%>','<%=item.price%>','<%=item.title%>');">🛒</span>
                         </div>
                     </div>
                 </div>
