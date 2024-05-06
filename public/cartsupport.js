@@ -61,6 +61,8 @@ async function minus(i) {
 }
 
 async function AddItemToCart(id, p, t) {
+    document.getElementById("mes").style.display = "flex";
+    document.querySelector('[class="text"]').style.display = 'none'
     var q = document.getElementById("qnt" + id).value;
     var obj = {
         id: +id,
@@ -79,7 +81,7 @@ async function AddItemToCart(id, p, t) {
         credentials: "include"
     }).then((response) => response.json())
         .then((response) => {
-            document.getElementById("mes").style.display = "flex"
+            document.querySelector('[class="text"]').style.display = ''
             document.getElementById("message").innerText = response.message || response.error;
             setTimeout(() => {
                 document.getElementById("mes").style.display = "none"
