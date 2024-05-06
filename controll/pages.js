@@ -102,6 +102,7 @@ exports.orders = async (req, res)=>{
 
 
 async function cusdata(ol){
+    ol = ol.filter(object => object.status == "approved")
     const totalPricePerProductMap = new Map();
     const totalPricePerProductMap0 = new Map();
     const totalPricePerProductMap1 = new Map();
