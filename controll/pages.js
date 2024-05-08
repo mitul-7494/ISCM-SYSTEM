@@ -107,8 +107,6 @@ async function cusdata(ol){
     const totalPricePerProductMap1 = new Map();
     let newol = ol.filter(object => object.status == "approved");
 
-    console.log(newol);
-
     newol.forEach(order => {
       const { orderlist, username , date} = order;
       let newdate = date.toString().split(" ");
