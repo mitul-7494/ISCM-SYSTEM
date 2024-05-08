@@ -1,4 +1,10 @@
-# Integrated Sales and Customer Management System
+ # Integrated Sales and Customer Management System
+ 
+**_NOTE:_**
+deployment completed at diffrent branch but main branch contain invoice sending with puppeteer which is harder to deploy, another way is that direct internally pass the ejs page and convert into invoice pdf
+by html-pdf used in branch [qwertyuiop](https://github.com/mitul-7494/ISCM-SYSTEM/tree/qwertyuiop) check out [deployment](https://iscm-system.onrender.com/login) customer side
+id:-guest
+pass:-customer
 
 ## Project Overview
 
@@ -61,10 +67,10 @@ The Integrated Sales and Customer Management System is designed to streamline an
 
 ## Documentation
 
-Thorough documentation is available in the [docs](./docs) folder, including:
+Thorough documentation is available in the [docs](./doc) folder, including:
 
-- [System Architecture](./docs/system-architecture.md)
-- [Database Schema](./docs/database-schema.md)
+- [System Architecture](./doc/system-architecture.md)
+- [Database Schema](./doc/database-schema.md)
 
 ## Getting Started
 
@@ -111,4 +117,4 @@ npm start
 ```
 create admin user by loging ui is given to add more sales and customer users.
 
-###voila
+### Voila
