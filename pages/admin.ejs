@@ -451,25 +451,41 @@
     }
 
     async function apply() {
-      const s = document.getElementById('sdate').value
-      let temp = datemap
+      const s = document.getElementById('sdate').value;
+      const e = document.getElementById('edate').value;
+      
+      // Validation: Check if start date is less than end date
+      if (s && e) {
+          const startDate = new Date(s).setHours(0, 0, 0, 0);
+          const endDate = new Date(e).setHours(0, 0, 0, 0);
+          
+          if (startDate > endDate) {
+              alert('Starting date must be less than or equal to the ending date.');
+              return; // Exit the function if validation fails
+          }
+      }
+      
+      let temp = datemap;
+      
       if (s != '') {
-        temp = temp.filter((item) => {
-          let itemdate = new Date(item[0]);
-          let constraindate = new Date(s).setHours(0, 0, 0, 0);
-          return (itemdate >= constraindate)
-        })
+          temp = temp.filter((item) => {
+              let itemdate = new Date(item[0]);
+              let constraindate = new Date(s).setHours(0, 0, 0, 0);
+              return (itemdate >= constraindate);
+          });
       }
-      const e = document.getElementById('edate').value
+      
       if (e != '') {
-        temp = temp.filter((item) => {
-          let itemdate = new Date(item[0]);
-          let constraindate = new Date(e).setHours(0, 0, 0, 0);
-          return (itemdate <= constraindate)
-        })
+          temp = temp.filter((item) => {
+              let itemdate = new Date(item[0]);
+              let constraindate = new Date(e).setHours(0, 0, 0, 0);
+              return (itemdate <= constraindate);
+          });
       }
+      
       await makedatechart(temp);
-    }
+  }
+
 
     async function reset() {
       document.getElementById('edate').value = ''
