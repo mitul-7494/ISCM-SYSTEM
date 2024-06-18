@@ -29,7 +29,7 @@ async function rejecter(id) {
 async function filtercus() {
     let x = document.getElementById('s_cus').value;
     const y = document.getElementsByClassName('order-card');
-    if (x === '-none-') {
+    if (x == '') {
         for (let i = 0; i < y.length; i++) {
             y[i].style.display = "";
         }
