@@ -44,21 +44,14 @@ async function filtercus() {
     }
 }
 
-async function showfilters(i) {
-    if (i.innerText === "Filter") {
-        i.innerText = "Hide";
-    } else {
-        i.innerText = "Filter";
-    }
-    document.documentElement.scrollTop = 0;
-    let x = document.getElementsByClassName('opts')[0];
-    if (x.style.display === '') {
-        x.style.display = "none";
-        await reset();
-    } else {
-        x.style.display = '';
-    }
-}
+// async function showfilters(i) {
+//     if (i.innerText == "Filter") { i.innerText = "Hide" }
+//     else { i.innerText = "Filter" }
+//     document.documentElement.scrollTop = 0
+//     let x = document.getElementsByClassName('opts')[0]
+//     if (x.style.display == '') { x.style.display = "none"; await reset()}
+//     else { x.style.display = '' }
+// }
 
 async function sdate(i) {
     const y = document.getElementsByClassName('order-card');
@@ -107,6 +100,6 @@ async function apply() {
 async function reset() {
     document.getElementById('edate').value = '';
     document.getElementById('sdate').value = '';
-    document.getElementById('s_cus').value = '-none-';
+    document.getElementById('s_cus').value = '';
     await apply();
 }
