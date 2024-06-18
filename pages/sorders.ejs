@@ -126,7 +126,6 @@
     <div id="load" style="position: fixed; top: 0; z-index: 1000; background-color: #ffffffc9; height: 100vh; width: 100vw; display: none;"></div>
     <nav>
         <a href="/sales">Home</a>
-        <a onclick="showfilters(this)">Filter</a> 
         <a>
             <span class="user-icon" id="username">
                 <%=username%>
@@ -136,6 +135,11 @@
             <span class="logout-icon">Logout</span>
         </a>
     </nav>
+
+    <div style="margin: 20px;">
+        <button onclick="showfilters(this)" style="padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Filter</button>
+    </div>
+    
     <div class="opts" style="display: none;">
         <div>
             <div>
