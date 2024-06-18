@@ -3,18 +3,13 @@
 
 <head>
     <title>sales</title>
-    <link rel="shortcut icon" href="https://avatars.githubitemcontent.com/u/77108292?v=4" type="image/x-icon">
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/77108292?v=4" type="image/x-icon">
     <style>
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
             padding-top: 52px;
-        }
-
-        .card-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
         nav {
@@ -35,20 +30,76 @@
             padding: 8px 16px;
             border-radius: 4px;
             transition: background-color 0.3s ease;
-            &:hover {
-                background-color: #777;
-            }
+        }
+
+        nav a:hover {
+            background-color: #777;
         }
 
         p::first-letter {
             text-transform: capitalize;
         }
 
+        .sidebar {
+            background-color: #f8f8f8;
+            padding: 15px;
+            width: 250px;
+            position: fixed;
+            top: 52px; /* Adjust according to your header height */
+            bottom: 0;
+            left: 0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .sidebar select,
+        .sidebar input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .sidebar button {
+            display: block;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button:hover {
+            background-color: #777;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-left: 270px; /* Adjust according to the sidebar width */
+            padding: 20px;
+            width: calc(100% - 270px);
+        }
+
         .order-card {
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
-            width: 60%;
+            width: 100%;
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -63,15 +114,28 @@
             padding: 0;
         }
 
-        .item{
+        .item {
             display: flex;
             flex-direction: row;
             padding-bottom: 5px;
         }
 
-        .itemt{display: flex;width:50%}
-        .itemp{display: flex;width:25%;justify-content: center;}
-        .itemq{display: flex;width:25%;justify-content: center;}
+        .itemt {
+            display: flex;
+            width: 50%;
+        }
+
+        .itemp {
+            display: flex;
+            width: 25%;
+            justify-content: center;
+        }
+
+        .itemq {
+            display: flex;
+            width: 25%;
+            justify-content: center;
+        }
 
         .checkout-button {
             display: flex;
@@ -90,34 +154,6 @@
         .checkout-button:hover {
             background-color: #777;
         }
-        
-        .opts {
-        background-color: #f8f8f8;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .opts label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-    }
-
-    .opts select,
-    .opts input {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    .opts div {
-        flex: 1;
-    }
     </style>
     <script defer type="text/javascript" src="/static/salessupport.js"></script>
 </head>
@@ -135,34 +171,23 @@
             <span class="logout-icon">Logout</span>
         </a>
     </nav>
-
-    <div style="margin: 20px;">
-        <button onclick="showfilters(this)" style="padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Filter</button>
-    </div>
     
-    <div class="opts" style="display: none;">
+    <div class="sidebar opts">
         <div>
-            <div>
-                <label for="s_cus">Customers:</label>
-                <select id="s_cus">
-                    <option selected value>-none-</option>
-                    <% for(let i=0;i<users.length;i++) {%><option><%= users[i] %></option><%}%>
-                </select>
-            </div>
-            <div>
-                <label for="sdate">Starting Date:</label>
-                <input type="date" id="sdate">
-            </div>
-            <div>
-                <label for="edate">Ending Date:</label>
-                <input type="date" id="edate">
-            </div>
-            <div style="display: flex; flex-direction: row;">
-                <button class="checkout-button" onclick="apply()">Apply</button>
-                <button class="checkout-button" style="margin-left: 20px;" onclick="reset()">Reset</button>
-            </div>
+            <label for="s_cus">Customers:</label>
+            <select id="s_cus">
+                <option selected value>-none-</option>
+                <% for(let i=0;i<users.length;i++) {%><option><%= users[i] %></option><%}%>
+            </select>
+            <label for="sdate">Starting Date:</label>
+            <input type="date" id="sdate">
+            <label for="edate">Ending Date:</label>
+            <input type="date" id="edate">
+            <button onclick="apply()">Apply</button>
+            <button onclick="reset()">Reset</button>
         </div>
-    </div>    
+    </div>
+
     <div class="card-container">
         <% orders.forEach(order => { %>
             <div class="order-card" id="<%= order._id %>">
@@ -183,16 +208,20 @@
                             <div class="itemp"><%= item.price %>.00</div>
                         </div>
                     <% }); %>
-                </div><hr>
-                <p style="display: flex; flex-direction: row; justify-content: space-between;"><b style="width: 75%;">Order Value:</b> <span style="display: flex;width: 25%; justify-content: center;">$<%= order.cartvalue %>.00</span></p><hr>
+                </div>
+                <hr>
+                <p style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <b style="width: 75%;">Order Value:</b>
+                    <span style="display: flex;width: 25%; justify-content: center;">$<%= order.cartvalue %>.00</span>
+                </p>
+                <hr>
                 <div style="display: flex; flex-direction: row;">
                     <button class="checkout-button" id="app" onclick="approver('<%= order._id %>')">Approve</button>
-                    <button class="checkout-button" id = "rej" style="margin-left: 5%;" onclick="rejecter('<%= order._id %>')" >Reject</button>
+                    <button class="checkout-button" id="rej" style="margin-left: 5%;" onclick="rejecter('<%= order._id %>')">Reject</button>
                 </div>
             </div>
         <% }); %>    
     </div>
-    
 </body>
 
 </html>
