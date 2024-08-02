@@ -11,10 +11,7 @@ const server = express();
 main().catch(err => console.log(err));
 async function main(){
     
-  mongoose.connect(process.env.URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  mongoose.connect(process.env.URI)
     .catch((error) => {
       console.error('Error connecting to MongoDB Atlas:', error);
     });

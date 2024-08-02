@@ -136,19 +136,19 @@ async function placeorder() {
     let email = document.getElementById('mail').value.trim();
     let phone = document.getElementById('phone').value.trim();
     
-    if (!await validateEmail(email)) {
-        alert("Please enter a valid email address.");
-        // Re-enable submit button and hide loading message
-        document.getElementById('conf').disabled = false;
-        return;
-    }
+    // if (!await validateEmail(email)) {
+    //     alert("Please enter a valid email address.");
+    //     // Re-enable submit button and hide loading message
+    //     document.getElementById('conf').disabled = false;
+    //     return;
+    // }
 
-    if (!await validatePhone(phone)) {
-        alert("Please enter a valid 10-digit phone number.");
-        // Re-enable submit button and hide loading message
-        document.getElementById('conf').disabled = false;
-        return;
-    }
+    // if (!await validatePhone(phone)) {
+    //     alert("Please enter a valid 10-digit phone number.");
+    //     // Re-enable submit button and hide loading message
+    //     document.getElementById('conf').disabled = false;
+    //     return;
+    // }
     
     var obj = {username: document.getElementById('username').innerText.trim(),
         email,phone 

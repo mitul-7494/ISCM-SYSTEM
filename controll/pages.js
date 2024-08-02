@@ -102,14 +102,13 @@ exports.orders = async (req, res)=>{
 
 
 async function cusdata(ol){
-    ol = ol.filter(object => object.status == "approved")
     const totalPricePerProductMap = new Map();
     const totalPricePerProductMap0 = new Map();
     const totalPricePerProductMap1 = new Map();
-    let newol = ol.filter(object => object.status == "approved");
+    // let newol = ol.filter(object => object.status == "approved");
 
     
-    newol.forEach(order => {
+    ol.forEach(order => {
       const { orderlist, username , date} = order;
       let newdate = date.toString().split(" ");
       newdate = newdate[1]+"-"+newdate[2]+"-"+newdate[3]
