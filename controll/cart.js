@@ -18,15 +18,14 @@ exports.addtocart = async (req, res) => {
   try {
     const { id, title, username, quantity, price } = data;
     const db = await Cart.findOne({ username, id })
-    var mess
     if (!db) {
       await Cart.create({ id, title, username, quantity, price })
-      var mess = "added to the cart"
+      mess = "added to the cart"
     }
     else {
       let doc = await Cart.findOneAndUpdate({ username, id }, { quantity: db.quantity + quantity })
       doc = await Cart.findOne({ username, id })
-      var mess = "updated Quantity " + doc.quantity
+      mess = "updated Quantity " + doc.quantity
     }
     res.status(200).json({
       message: mess
@@ -34,7 +33,7 @@ exports.addtocart = async (req, res) => {
   } catch (err) {
     res.status(401).json({
       message: "Item not added",
-      error: err.mesage
+      error: err.message
     })
   }
 }
