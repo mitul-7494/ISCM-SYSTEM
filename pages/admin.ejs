@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      background-color: #555;
+      padding: 10px;
+    }
+
+    nav a , a:not([href]):not([class]), a:not([href]):not([class]):hover{
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      margin: 0 10px;
+      border-radius: 5px;
+    }
+
+    nav a:hover {
+      background-color: #777;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .section {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section form {
+      width: 25vw;
+      margin: 25px auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #555;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .salescontainer {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 50vw;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-family: Arial, sans-serif;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #555;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    button,
+    input[type="submit"] {
+      background-color: #555;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover,
+    input[type="submit"]:hover {
+      background-color: #333;
+    }
+
+    canvas {
+      margin: 50px 0px;
+      max-width: 52vw;
+      max-height: 52vw;
+    }
+
+    .btn {
+      background-color: #555;
+      color: #fff;
+      margin: 0 5px;
+    }
+
+    .btn:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .actionButtons{
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Admin Panel</h1>
+    <a>
+      <%=user%>
+    </a>
+  </header>
+
+  <nav>
+    <a onclick="showSection('manage-sales')">Manage Sales</a>
+    <a onclick="showSection('manage-customers')">Manage Customers</a>
+    <a onclick="showSection('reports');loadreport();">Reports</a>
+    <a href="./logout">Logout</a>
+  </nav>
+
+  <div class="content">
+    <div id="manage-sales" class="section">
+      <h2>Add Sales Employee</h2>
+      <form action="./registersales" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+          <label for="sales-username">Username</label>
+          <input type="text" id="sales-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="sales-password">Password</label>
+          <input type="text" id="sales-password" name="password" minlength="6" required>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="salescontainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Password</th>
+              <th style="width: 150px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% s.forEach((saleuser)=> { %>
+              <tr>
+                <td>
+                  <%= saleuser.username %>
+                </td>
+                <td>
+                  <%= saleuser.password %>
+                </td>
+                <td>
+                  <div class="actionButtons">
+                    <a class="btn" onclick="deleteSales('<%= saleuser._id %>')">delete</a>
+                    <a class="btn" onclick="seter(this)">Edit</a>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="manage-customers" class="section">
+      <h2>Add Customers</h2>
+      <form action="./registercustomer" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+          <label for="cust-username">Username</label>
+          <input type="text" id="cust-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="cust-password">Password</label>
+          <input type="text" id="cust-password" name="password" minlength="6" required>
+        </div>
+        <div class="form-group">
+          <label for="cust-password">balance (in $)</label>
+          <input type="number" id="balance" name="balance" min="0" required>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="salescontainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Balance</th>
+              <th style="width: 150px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% c.forEach((cuseuser)=> { %>
+              <tr>
+                <td>
+                  <%= cuseuser.username %>
+                </td>
+                <td>
+                  <%= cuseuser.password %>
+                </td>
+                <td>
+                  <%= cuseuser.balance %> $
+                </td>
+                <td>
+                  <div class="actionButtons">
+                    <a class="btn" onclick="deleteSales('<%= cuseuser._id %>')">delete</a>
+                    <a class="btn" onclick="cuseter(this)">Edit</a>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="reports" class="section">
+      <h2>Reports</h2>
+      <canvas id="pieChart"></canvas>
+      <canvas id="barchart"></canvas>
+      <div style="margin-top: 50px; width: 25vw;">
+        <div>
+          <label for="sdate">Starting Date:</label>
+          <input type="date" id="sdate">
+        </div>
+        <div>
+          <label for="edate">Ending Date:</label>
+          <input type="date" id="edate">
+        </div>
+        <div style="display: flex; flex-direction: row;">
+          <button class="checkout-button" onclick="apply()">Apply</button>
+          <button class="checkout-button" style="margin-left: 20px;" onclick="reset()">Reset</button>
+        </div>
+      </div>
+      <canvas style="margin-top: 20px;" id="dateset"></canvas>
+      <canvas id="month"></canvas>
+      <canvas id="year"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const datemap = <%- JSON.stringify(datemap) %>
+    const piechart = document.getElementById("pieChart");
+    const bar1chart = document.getElementById("barchart");
+    const monthChart = document.getElementById("month");
+    const yearChart = document.getElementById("year");
+    const monthData = datemap.reduce((acc, [date, sales]) => {
+      const month = new Date(date).toLocaleString('default', { month: 'long' });
+      const year = new Date(date).getFullYear()
+      const a = month + "-" + year;
+      acc[a] = (acc[a] || 0) + sales;
+      return acc;
+    }, {});
+    const yearData = datemap.reduce((acc, [date, sales]) => {
+      const year = new Date(date).getFullYear();
+      acc[year] = (acc[year] || 0) + sales;
+      return acc;
+    }, {});
+
+    function loadreport() {
+      let chartStatus = Chart.getChart("pieChart");
+      if (chartStatus != undefined) {
+        return false
+      }
+
+      new Chart(piechart, {
+        type: 'pie',
+        data: {
+          labels: <%- JSON.stringify(xlab) %>,
+          datasets: [{
+            label: 'sales in $',
+            data: [<%= ylab %>],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: 'Item-wise sales',
+              font: {
+                size: 24,
+                family: 'Helvetica Neue'
+              }
+            }
+          }
+        }
+      });
+
+
+      new Chart(bar1chart, {
+        type: 'bar',
+        data: {
+          labels: <%- JSON.stringify(bar0xlab) %>,
+          datasets: [{
+            label: 'sales in $',
+            data: [<%= bar0ylab %>],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          barPercentage: 0.3,
+          scales: {
+            y: {
+              beginAtZero: true,
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'customer-wise sales',
+              font: {
+                size: 24,
+                family: 'Helvetica Neue'
+              }
+            }
+          }
+        }
+      });
+
+      apply();
+
+      new Chart(monthChart, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(monthData),
+          datasets: [{
+            label: 'sales in $',
+            data: Object.values(monthData),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          barPercentage: 0.3,
+          scales: {
+            y: {
+              beginAtZero: true,
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Month-wise sales',
+              font: {
+                size: 24,
+                family: 'Helvetica Neue'
+              }
+            }
+          }
+        }
+      });
+
+      // Year-wise bar chart
+      new Chart(yearChart, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(yearData),
+          datasets: [{
+            label: 'sales in $',
+            data: Object.values(yearData),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          barPercentage: 0.3,
+          scales: {
+            y: {
+              beginAtZero: true,
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Year-wise sales',
+              font: {
+                size: 24,
+                family: 'Helvetica Neue'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    async function apply() {
+      const s = document.getElementById('sdate').value;
+      const e = document.getElementById('edate').value;
+      
+      // Validation: Check if start date is less than end date
+      if (s && e) {
+          const startDate = new Date(s).setHours(0, 0, 0, 0);
+          const endDate = new Date(e).setHours(0, 0, 0, 0);
+          
+          if (startDate > endDate) {
+              alert('Starting date must be less than or equal to the ending date.');
+              return; // Exit the function if validation fails
+          }
+      }
+      
+      let temp = datemap;
+      
+      if (s != '') {
+          temp = temp.filter((item) => {
+              let itemdate = new Date(item[0]);
+              let constraindate = new Date(s).setHours(0, 0, 0, 0);
+              return (itemdate >= constraindate);
+          });
+      }
+      
+      if (e != '') {
+          temp = temp.filter((item) => {
+              let itemdate = new Date(item[0]);
+              let constraindate = new Date(e).setHours(0, 0, 0, 0);
+              return (itemdate <= constraindate);
+          });
+      }
+      
+      await makedatechart(temp);
+  }
+
+
+    async function reset() {
+      document.getElementById('edate').value = ''
+      document.getElementById('sdate').value = ''
+      await apply()
+    }
+
+    async function makedatechart(dataset) {
+      let chartStatus = Chart.getChart("dateset");
+      if (chartStatus != undefined) {
+        chartStatus.destroy();
+      }
+      const datechart = document.getElementById("dateset");
+      const xbar = dataset.map(item => item[0])
+      const ybar = dataset.map(item => item[1])
+      new Chart(datechart, {
+        type: 'line',
+        data: {
+          labels: xbar,
+          datasets: [{
+            label: 'sales in $',
+            data: ybar,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          barPercentage: 0.3,
+          scales: {
+            y: {
+              beginAtZero: true,
+            }
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Date-wise sales',
+              font: {
+                size: 24,
+                family: 'Helvetica Neue'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+  <script src="/static/adminsupport.js"></script>
+</body>
+
+</html>

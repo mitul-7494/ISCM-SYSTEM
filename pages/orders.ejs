@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>items</title>
+    <link rel="shortcut icon" href="https://avatars.githubitemcontent.com/u/77108292?v=4" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            padding-top: 52px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 15px;
+            text-align: right;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            &:hover {
+                background-color: #777;
+            }
+        }
+
+        p::first-letter {
+            text-transform: capitalize;
+        }
+
+        .order-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 60%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: large;
+        }
+
+        .item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item{
+            display: flex;
+            flex-direction: row;
+            padding-bottom: 5px;
+        }
+
+        .itemt{display: flex;width:50%}
+        .itemp{display: flex;width:25%;justify-content: center;}
+        .itemq{display: flex;width:25%;justify-content: center;}
+        
+    </style>
+    <script defer type="text/javascript" src="/static/cartsupport.js"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/items">Home</a>
+        <a href="/items/cart">Cart</a>
+        <a href="/items/orders">Orders</a>
+        <a>
+            <span class="user-icon" id="username">
+                <%=user.username%>
+            </span>
+        </a>    
+        <a href="/logout">
+            <span class="logout-icon">Logout</span>
+        </a>
+    </nav>
+    <div class="card-container">
+        <% orders.forEach(order => { %>
+            <div class="order-card">
+                <h3>Order ID: <%= order._id %></h3>
+                <% let x = (order.status == "pending") ? "blue" : "red" %>
+                <p <% /* eslint-disable css-propertyvalueexpected */ %> style='color:<%= (order.status == "approved")?"green":x %>;'><b>Status:</b> <%= order.status %></p>
+                <% let s  = order.date.toString();
+                let parts = s.split(" ") %>
+                <p><b>Ordered on:</b> <%= parts[1]+"-"+parts[2]+"-"+parts[3] %></p>
+                <p><b>Email:</b> <%= order.email %></p>
+                
+                <div class="item-list">
+                    <div class="item">
+                        <div class="itemt"><h3>Items</h3></div>
+                        <div class="itemq"><h3>quantity</h3></div>
+                        <div class="itemp"><h3>price</h3></div>
+                    </div>
+                </div>
+                <div class="item-list">
+                    <% order.orderlist.forEach(item => { %>
+                        <div class="item">
+                            <div class="itemt"><%= item.title %></div>
+                            <div class="itemq"><%= item.quantity %></div>
+                            <div class="itemp"><%= item.price %>.00</div>
+                        </div>
+                    <% }); %>
+                </div><hr>
+                <p style="display: flex; flex-direction: row; justify-content: space-between;"><b style="width: 75%;">Order Value:</b> <span style="display: flex;width: 25%; justify-content: center;">$<%= order.cartvalue %>.00</span></p><hr>
+            </div>
+        <% }); %>    
+    </div>
+</body>
+
+</html>

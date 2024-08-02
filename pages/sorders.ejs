@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>sales</title>
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/77108292?v=4" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            padding-top: 52px;
+            display: flex;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 15px;
+            text-align: right;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #777;
+        }
+
+        p::first-letter {
+            text-transform: capitalize;
+        }
+
+        .sidebar {
+            background-color: #f8f8f8;
+            padding: 15px;
+            width: 250px;
+            position: fixed;
+            top: 52px; /* Adjust according to your header height */
+            bottom: 0;
+            left: 0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .sidebar select,
+        .sidebar input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .sidebar button {
+            display: block;
+            background-color: #555;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button:hover {
+            background-color: #777;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-left: 270px; /* Adjust according to the sidebar width */
+            padding: 20px;
+            width: calc(100% - 270px);
+        }
+
+        .order-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: large;
+        }
+
+        .item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .item {
+            display: flex;
+            flex-direction: row;
+            padding-bottom: 5px;
+        }
+
+        .itemt {
+            display: flex;
+            width: 50%;
+        }
+
+        .itemp {
+            display: flex;
+            width: 25%;
+            justify-content: center;
+        }
+
+        .itemq {
+            display: flex;
+            width: 25%;
+            justify-content: center;
+        }
+
+        .checkout-button {
+            display: flex;
+            background-color: #555;
+            width: fit-content;
+            margin-top: 15px;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-button:hover {
+            background-color: #777;
+        }
+    </style>
+    <script defer type="text/javascript" src="/static/salessupport.js"></script>
+</head>
+
+<body>
+    <div id="load" style="position: fixed; top: 0; z-index: 1000; background-color: #ffffffc9; height: 100vh; width: 100vw; display: none;"></div>
+    <nav>
+        <a href="/sales">Home</a>
+        <a>
+            <span class="user-icon" id="username">
+                <%=username%>
+            </span>
+        </a>
+        <a href="/logout">
+            <span class="logout-icon">Logout</span>
+        </a>
+    </nav>
+    
+    <div class="sidebar opts">
+        <div>
+            <label for="s_cus">Customers:</label>
+            <select id="s_cus">
+                <option selected value>-none-</option>
+                <% for(let i=0;i<users.length;i++) {%><option><%= users[i] %></option><%}%>
+            </select>
+            <label for="sdate">Starting Date:</label>
+            <input type="date" id="sdate">
+            <label for="edate">Ending Date:</label>
+            <input type="date" id="edate">
+            <button onclick="apply()">Apply</button>
+            <button onclick="reset()">Reset</button>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <% orders.forEach(order => { %>
+            <div class="order-card" id="<%= order._id %>">
+                <h3>Order ID: <%= order._id %></h3>
+                <p><b>Customer:</b> <%= order.username %></p>
+                <p><b>Status:</b> <%= order.status %></p>
+                <span style="display: none;"><%= order.date %></span>
+                <% let s  = order.date.toString();
+                let parts = s.split(" ") %>
+                <p><b>Ordered on:</b> <%= parts[1]+"-"+parts[2]+"-"+parts[3] %></p>
+                <p><b>Email:</b> <%= order.email %></p>
+                <h3>Items:</h3>
+                <div class="item-list">
+                    <% order.orderlist.forEach(item => { %>
+                        <div class="item">
+                            <div class="itemt"><%= item.title %></div>
+                            <div class="itemq"><%= item.quantity %></div>
+                            <div class="itemp"><%= item.price %>.00</div>
+                        </div>
+                    <% }); %>
+                </div>
+                <hr>
+                <p style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <b style="width: 75%;">Order Value:</b>
+                    <span style="display: flex;width: 25%; justify-content: center;">$<%= order.cartvalue %>.00</span>
+                </p>
+                <hr>
+                <div style="display: flex; flex-direction: row;">
+                    <button class="checkout-button" id="app" onclick="approver('<%= order._id %>')">Approve</button>
+                    <button class="checkout-button" id="rej" style="margin-left: 5%;" onclick="rejecter('<%= order._id %>')">Reject</button>
+                </div>
+            </div>
+        <% }); %>    
+    </div>
+</body>
+
+</html>

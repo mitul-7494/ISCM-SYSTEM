@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>items</title>
+    <link rel="shortcut icon" href="https://avatars.githubitemcontent.com/u/77108292?v=4" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            padding-top: 52px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .item-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            margin: 10px;
+            overflow: hidden;
+            background-size: contain;
+            background-position: top;
+            background-repeat: no-repeat;
+            height: 300px;
+            position: relative;
+        }
+
+        .item-details h2 {
+            margin: 0;
+            float: left;
+            font-size: 0.95em;
+            width: 100%;
+            height: 50%;
+            text-align: left;
+
+        }
+
+        .item-details h2.price {
+            padding-top: 5px;
+            font-size: 0.85em;
+            width: 35%;
+        }
+
+        .item-card p {
+            margin: 8px 0;
+            word-break: break-all;
+            white-space: normal;
+        }
+
+        .item-details {
+            position: absolute;
+            height: 23%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .item-card strong {
+            font-weight: bold;
+        }
+
+        .item-pic {
+            height: 75%;
+        }
+
+        .item-pic img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .buttoncontainer {
+            display: flex;
+            justify-content: center;
+            padding-top: 2vh;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 15px;
+            text-align: right;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            &:hover {
+                background-color: #777;
+            }
+        }
+
+        .order_d {
+            padding-right: 5px;
+            float: right;
+        }
+
+        .order_d input[type="number"] {
+            cursor: default;
+            width: 35px;
+            border: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        #mes {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            display: none;
+            top: 0;
+            align-items: center;
+            z-index: 1001;
+            background-color: #555555ad;
+        }
+
+        .text {
+            width: 16%;
+            position: absolute;
+            text-align: center;
+            padding: 3px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.896);
+            right: 42%;
+            /* color: rgba(255, 255, 255, 0.712); */
+            font-family: 'Arial', sans-serif;
+            font-size: large;
+            font-weight: 700;
+            word-wrap: break-word;
+        }
+
+        p::first-letter {
+            text-transform: capitalize;
+        }
+    </style>
+    <script defer type="text/javascript" src="/static/cartsupport.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="mes">
+        <div class="text">
+            <p id="message"></p>
+        </div>
+    </div>
+    <nav>
+        <a href="/items">Home</a>
+        <a href="/items/cart">Cart</a>
+        <a href="/items/orders">Orders</a>
+        <a style="color:#fff;">
+            <span class="user-icon" id="username">
+                <%=user.username%>
+            </span>
+        </a>
+        <a href="./logout">
+            <span class="logout-icon">Logout</span>
+        </a>
+    </nav>
+    <div class="card-container">
+        <% for (let item of items) {%>
+            <% if(item){ %>
+                <div class="item-card" id="<%= item.id %>">
+                    <div class="item-pic">
+                        <img src="https://cdn.dummyjson.com/product-images/<%= item.id %>/thumbnail.jpg" alt="<%= item.title %>">
+                    </div>
+                    <div class="item-details">
+                        <h2>
+                            <%= item.title %>
+                        </h2>
+                        <br>
+                        <h2 class="price">
+                            $<%= item.price %>.00
+                        </h2>
+                        <div class="order_d">
+                            <span>Qnt: </span><input type="number" id="qnt<%=item.id%>" min="1" max="99" value="1"
+                                onkeydown="return false" onfocus="this.blur()">
+                            <span style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="right" title="Add to Cart"
+                                onclick="AddItemToCart(this, '<%=item.id%>','<%=item.price%>','<%=item.title%>');">🛒</span>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    <% } %>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    });
+</script>
+</html>
