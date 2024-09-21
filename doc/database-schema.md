@@ -55,3 +55,4 @@ since app is based on Nodejs, mongodb atlas database should be an obvious choice
 **Note:**
 
 - Additional validations and constraints is implemented in the actual JavaScript code, which is not mentioned here.
+- 
